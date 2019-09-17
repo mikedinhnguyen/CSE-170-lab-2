@@ -85,7 +85,7 @@ void MyViewer::add_model(SnShape* s, GsVec p)
 	// Your scene graph should always be carefully designed according to your application needs.
 
 	SnManipulator* manip = new SnManipulator;
-	GsMat m = (GsMat(1, 0, 0, 0, 0, (float)cos(90), (float)-sin(90), 0, 0, (float)sin(90), (float)cos(90), 0, 0, 0, 0, 1));
+	GsMat m;
 	m.translation(p);
 	manip->initial_mat(m);
 
