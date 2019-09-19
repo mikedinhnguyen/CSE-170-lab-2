@@ -133,7 +133,7 @@ void MyViewer::build_scene()
 	p = new SnPrimitive(GsPrimitive::Box,1,3,1);
 	p = new SnPrimitive(GsPrimitive::Sphere,2);
 	p = new SnPrimitive(GsPrimitive::Capsule,1,1,3);
-	p = new SnPrimitive(GsPrimitive::Ellipsoid,2.0,0.5);
+	p = new SnPrimitive(GsPrimitive::Ellipsoid,2.0,0.5); */
 }
 
 // Below is an example of how to control the main loop of an animation:
