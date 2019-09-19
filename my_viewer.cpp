@@ -1,4 +1,3 @@
-
 # include "my_viewer.h"
 # include "sn_mynode.h"
 # include <sigogl/ui_button.h>
@@ -14,12 +13,12 @@ MyViewer::MyViewer ( int x, int y, int w, int h, const char* l ) : WsViewer(x,y,
 {
 	_nbut = 0;
 	_animating = false;
-	add_ui ();
+	//add_ui ();
 	add_mynode (10);
 	build_ui();
 	build_scene();
 }
-
+/*
 void MyViewer::add_ui ()
 {
 	UiPanel *p;
@@ -30,6 +29,7 @@ void MyViewer::add_ui ()
 	p->add ( new UiButton ( "OpenGL", EvInfo ) );
 	p->add ( new UiButton ( "Exit", EvExit ) );
 }
+*/
 
 void MyViewer::add_mynode ( int n )
 {
@@ -40,17 +40,11 @@ void MyViewer::add_mynode ( int n )
 	//float inc = 0.1f;
 	while (n-- > 0)
 	{
-		//c = new SnMyNode;
-		//c->init.set (gs_random(-r, r), gs_random(-r, r), gs_random(-r, r));
-
 		for (int i = 0; i < n; i++)
 		{
 			points[i];
 		}
-
-	//c->width = gs_random(0.001f, r);
-	//c->height = gs_random(0.001f, r * 2);
-	c->color(GsColor::random());
+	c->color(GsColor::darkred);
 	// Example how to print/debug your generated data:
 	// gsout<<n<<": "<<c->color()<<gsnl;
 	rootg()->add(c);
@@ -60,7 +54,6 @@ void MyViewer::add_mynode ( int n )
 	}
 }
 
-
 void MyViewer::build_ui()
 {
 	UiPanel* p, * sp;
@@ -68,10 +61,10 @@ void MyViewer::build_ui()
 	p = uim->add_panel("", UiPanel::HorizLeft);
 	p->add(new UiButton("View", sp = new UiPanel()));
 	{	UiPanel* p = sp;
-	//p->add(_nbut = new UiCheckButton("Normals", EvNormals));
+	p->add(_nbut = new UiCheckButton("Normals", EvNormals));
 	}
-	//p->add(new UiButton("Animate", EvAnimate));
-	//p->add(new UiButton("Exit", EvExit)); p->top()->separate();
+	p->add(new UiButton("Animate", EvAnimate));
+	p->add(new UiButton("Exit", EvExit)); p->top()->separate();
 }
 
 void MyViewer::add_model(SnShape* s, GsVec p)
@@ -91,10 +84,15 @@ void MyViewer::add_model(SnShape* s, GsVec p)
 
 	SnGroup* g = new SnGroup;
 	SnLines* l = new SnLines;
+	SnTransform* t = new SnTransform;
 	l->color(GsColor::orange);
 	g->add(s);
 	g->add(l);
+	g->add(t);
 	manip->child(g);
+
+	t->get().translation(p);
+
 	manip->visible(false); // call this to turn off mouse interaction
 
 	rootg()->add(manip);
@@ -104,20 +102,17 @@ void MyViewer::build_scene()
 {
 	SnPrimitive* p;
 	SnGroup* g = new SnGroup;
-	/*
-	p = new SnPrimitive(GsPrimitive::Cylinder, 3.0, 3.0, 0.25); //stopwatch face?
-	p->prim().material.diffuse = GsColor::blue;
-	g->add(t = new SnTransform);
-	t->get().rotx(1.5708f);
-	rootg()->add(g);
-	add_model(p, GsVec(0, 0, 0));*/
-
-	//
+	
 
 	p = new SnPrimitive(GsPrimitive::Cylinder, 0.25, 0.25, 2.5f); // hand 1
 	p->prim().material.diffuse = GsColor::red;
-
+	// p->prim().orientation = GsQuat(GsVec::i, (float)GS_PIDIV2); 
+	// rotate 90 degrees
+	
 	add_model(p, GsVec(0, 2.5f, 0.5f));
+
+	// SnTransform* tr = (SnTransform*)((SnGroup*)((SnManipulator*)rootg()->get(0))->child())->get(2);
+	// gsout << tr;
 
 	p = new SnPrimitive(GsPrimitive::Cylinder, 0.5, 0, 0.5); // hand 1's arrow
 	p->prim().material.diffuse = GsColor::red;
@@ -136,20 +131,9 @@ void MyViewer::build_scene()
 
 	/* extra stuff
 	p = new SnPrimitive(GsPrimitive::Box,1,3,1);
-	p->prim().material.diffuse=GsColor::yellow;
-	add_model ( p, GsVec(0,0,0) );
-
 	p = new SnPrimitive(GsPrimitive::Sphere,2);
-	p->prim().material.diffuse=GsColor::red;
-	add_model ( p, GsVec(-4,0,0) );
-
 	p = new SnPrimitive(GsPrimitive::Capsule,1,1,3);
-	p->prim().material.diffuse=GsColor::red;
-	add_model ( p, GsVec(8,0,0) );
-
 	p = new SnPrimitive(GsPrimitive::Ellipsoid,2.0,0.5);
-	p->prim().material.diffuse=GsColor::green;
-	add_model ( p, GsVec(-8,0,0) ); */
 }
 
 // Below is an example of how to control the main loop of an animation:
@@ -220,14 +204,14 @@ int MyViewer::handle_keyboard ( const GsEvent &e )
 	switch ( e.key )
 	{	case GsEvent::KeyEsc : gs_exit(); return 1;
 		case GsEvent::KeyLeft: gsout<<"Left\n"; return 1;
-		// case GsEvent::'q':
-		// etc
 		default: gsout<<"Key pressed: "<<e.key<<gsnl;
+		
+		// case 'q': 
 	}
 
 	return 0;
 }
-
+/*
 int MyViewer::uievent ( int e )
 {
 	switch ( e )
@@ -245,3 +229,4 @@ int MyViewer::uievent ( int e )
 	}
 	return WsViewer::uievent(e);
 }
+*/
