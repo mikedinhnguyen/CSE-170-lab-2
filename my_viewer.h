@@ -11,17 +11,15 @@
 // Viewer for this example:
 class MyViewer : public WsViewer
 {  protected :
-	enum MenuEv { EvAdd, EvMultiColor, EvInfo, EvExit };
+	// enum MenuEv { EvAdd, EvMultiColor, EvInfo, EvExit };
+	enum MenuEv { EvNormals, EvAnimate, EvExit };
 	UiCheckButton* mcolorbut;
 	UiCheckButton* _nbut;
 	bool _animating;
-private:
-	SnTransform* t;
-	SnTransform* t2;
    public :
 	   GsArray<GsPnt> points;
 	MyViewer ( int x, int y, int w, int h, const char* l );
-	void add_ui ();
+	//void add_ui ();
 	void add_mynode ( int n );
 	void build_ui();
 	void add_model(SnShape* s, GsVec p);
@@ -29,5 +27,5 @@ private:
 	void show_normals(bool view);
 	void run_animation();
 	virtual int handle_keyboard ( const GsEvent &e ) override;
-	virtual int uievent ( int e ) override;
+	//virtual int uievent ( int e ) override;
 };
